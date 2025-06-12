@@ -3,15 +3,20 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Quasi Name Generator</title>
+  <title>Name Kitchen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    if (window.location.hostname === "www.namekitchen.net") {
+      window.location.href = window.location.href.replace("www.", "");
+    }
+  </script>
 </head>
 
 <body>
   <div class="card">
-    <h1>🧪 Quasi Name Generator</h1>
+    <h1>🧪 Name Kitchen</h1>
 
     <label for="minLength">Minimum Length</label>
     <input type="number" id="minLength" value="4" min="2">
@@ -42,5 +47,6 @@
   </div>
 
   <script src="script.js"></script>
-</body >
-</html >
+</body>
+
+</html>
