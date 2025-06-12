@@ -1,3 +1,9 @@
+// Constants
+const PROB_VOWEL_CLUSTER = 0.2;
+const PROB_CONSONANT_CLUSTER = 0.25;
+const PROB_START_WITH_VOWEL = 0.3;
+const PROB_ADD_FINAL_CLUSTER = 0.4;
+
 const getRandomInt = (max) => Math.floor(Math.random() * max);
 const choose = (arr) => arr[getRandomInt(arr.length)];
 
@@ -9,43 +15,61 @@ const phonemes = {
   finalClusters: ["nd", "ng", "nt", "rk", "sh", "th", "ld", "rt", "st"]
 };
 
+const toneBias = {
+  soft: ["l", "m", "n", "r", "s", "v"],
+  hard: ["k", "g", "t", "d", "z", "x"],
+  fantasy: ["th", "ae", "dr", "el", "or", "ul", "qu"],
+  brand: ["ly", "zo", "ex", "iq", "sy", "io", "za", "ix", "fy"]
+};
+
 const filterPhonemes = (exclude) => {
-  const sets = JSON.parse(JSON.stringify(phonemes));
-  if (exclude.length === 0) return sets;
-  for (const key in sets) {
-    sets[key] = sets[key].filter(p => !exclude.includes(p));
-  }
-  return sets;
+  return Object.fromEntries(
+    Object.entries(phonemes).map(([key, value]) => [
+      key,
+      value.filter(p => !exclude.includes(p))
+    ])
+  );
 };
 
 const generateQuasiName = (options) => {
   const sets = filterPhonemes(options.exclude);
 
-  const toneBias = {
-    soft: ["l", "m", "n", "r", "s", "v"],
-    hard: ["k", "g", "t", "d", "z", "x"],
-    fantasy: ["th", "ae", "dr", "el", "or", "ul", "qu"]
-  };
-
   let name = "";
   let lengthChars = 0;
   const minLen = options.minLength;
   const maxLen = options.maxLength;
-  let useVowel = options.startWith === 'vowel' ? true : options.startWith === 'consonant' ? false : getRandomInt(100) < 30;
+
+  const firstLetter = options.startWith.toLowerCase();
+  let useVowel;
+
+  if (firstLetter === 'vowel') {
+    useVowel = true;
+  } else if (firstLetter === 'consonant') {
+    useVowel = false;
+  } else if (firstLetter === 'any') {
+    useVowel = Math.random() < PROB_START_WITH_VOWEL;
+  } else {
+    useVowel = phonemes.vowels.includes(firstLetter);
+  }
 
   while (lengthChars < minLen) {
     let phoneme;
+
     if (useVowel) {
-      phoneme = (getRandomInt(100) < 20 ? choose(sets.vowelClusters) : choose(sets.vowels));
+      phoneme = Math.random() < PROB_VOWEL_CLUSTER ? choose(sets.vowelClusters) : choose(sets.vowels);
     } else {
-      let pool = (getRandomInt(100) < 25 ? sets.consonantClusters : sets.consonants);
+      let pool = Math.random() < PROB_CONSONANT_CLUSTER ? sets.consonantClusters : sets.consonants;
       if (options.tone !== 'neutral') {
-        pool = pool.concat(toneBias[options.tone].filter(p => !options.exclude.includes(p)));
+        const bias = toneBias[options.tone] || [];
+        pool = pool.concat(bias.filter(p => !options.exclude.includes(p)));
+        if (options.tone === 'brand') {
+          pool = pool.concat(bias); // duplicate for brand-style weighting
+        }
       }
       phoneme = choose(pool);
     }
 
-    if (lengthChars + phoneme.length <= maxLen) {
+    if ((lengthChars + phoneme.length) <= maxLen) {
       name += phoneme;
       lengthChars += phoneme.length;
     } else {
@@ -55,17 +79,20 @@ const generateQuasiName = (options) => {
     useVowel = !useVowel;
   }
 
-  if (lengthChars < maxLen && getRandomInt(100) < 40) {
+  if (lengthChars < maxLen && Math.random() < PROB_ADD_FINAL_CLUSTER) {
     const finalCluster = choose(sets.finalClusters);
     if (lengthChars + finalCluster.length <= maxLen) {
       name += finalCluster;
     }
   }
 
-  name = name.replace(/(.)\\1{2,}/g, '$1'); // prevent triple repeating chars
+  if (!['any', 'vowel', 'consonant'].includes(firstLetter) && name.length > 0) {
+    name = firstLetter + name.slice(1);
+  }
+
+  name = name.replace(/(.)\1{2,}/g, '$1');
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
-
 
 document.getElementById("generateBtn").addEventListener("click", () => {
   const options = {
@@ -73,7 +100,7 @@ document.getElementById("generateBtn").addEventListener("click", () => {
     maxLength: parseInt(document.getElementById("maxLength").value),
     tone: document.getElementById("tone").value,
     startWith: document.getElementById("startWith").value,
-    exclude: document.getElementById("exclude").value.split(',').map(e => e.trim()).filter(Boolean)
+    exclude: document.getElementById("exclude").value.split(',').map(e => e.trim().toLowerCase()).filter(Boolean)
   };
   document.getElementById("output").textContent = generateQuasiName(options);
 });
