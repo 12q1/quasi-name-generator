@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Quasi Name Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
+  <div class="card">
     <h1>🧪 Quasi Name Generator</h1>
+
+    <label for="minLength">Minimum Length</label>
+    <input type="number" id="minLength" value="4" min="2">
+
+    <label for="maxLength">Maximum Length</label>
+    <input type="number" id="maxLength" value="7" min="3">
+
+    <label for="tone">Name Tone</label>
+    <select id="tone">
+      <option value="neutral">Neutral</option>
+      <option value="soft">Soft</option>
+      <option value="hard">Hard</option>
+      <option value="fantasy">Fantasy</option>
+    </select>
+
+    <label for="startWith">Start With</label>
+    <select id="startWith">
+      <option value="any">Any</option>
+      <option value="vowel">Vowel</option>
+      <option value="consonant">Consonant</option>
+    </select>
+
+    <label for="exclude">Exclude Letters/Clusters (comma-separated)</label>
+    <input type="text" id="exclude" placeholder="x, zz, qu">
+
     <button id="generateBtn">Generate Name</button>
     <div id="output"></div>
   </div>
+
   <script src="script.js"></script>
-</body>
-</html>
+</body >
+</html >
