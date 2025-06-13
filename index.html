@@ -190,7 +190,7 @@
           <div class="space-y-6">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Name Length: <span id="lengthValue"
-                  class="font-semibold text-indigo-600">4 - 7</span></label>
+                  class="font-semibold text-indigo-600">3 - 6</span></label>
               <div id="lengthSlider" class="mt-4"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -501,7 +501,7 @@
 
       // === INITIALIZATION ===
       // 1. Length Slider
-      noUiSlider.create(lengthSlider, { start: [4, 7], connect: true, range: { 'min': 2, 'max': 20 }, step: 1, tooltips: false, format: { to: v => Math.round(v), from: v => Number(v) } });
+      noUiSlider.create(lengthSlider, { start: [3, 6], connect: true, range: { 'min': 2, 'max': 20 }, step: 1, tooltips: false, format: { to: v => Math.round(v), from: v => Number(v) } });
       lengthSlider.noUiSlider.on('update', values => lengthValue.textContent = `${values[0]} - ${values[1]}`);
 
       // 2. 'Starts With' Dropdown
