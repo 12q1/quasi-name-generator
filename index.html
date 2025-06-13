@@ -1,9 +1,12 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Name Kitchen</title>
+  <title>Name Kitchen - Modern Name Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Generate unique and brandable names with advanced controls. Perfect for startups, projects, and creative endeavors.">
+  <meta name="keywords" content="name generator, brand name generator, startup name, project name, fantasy name">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6TKZCJ6SX"></script>
@@ -15,77 +18,436 @@
     gtag('config', 'G-Y6TKZCJ6SX');
   </script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script>
-    if (window.location.hostname === "www.namekitchen.net") {
-      window.location.href = window.location.href.replace("www.", "");
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- noUiSlider for Range Slider -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+
+  <!-- Custom Styles -->
+  <style>
+    /* Custom styles to complement Tailwind and for specific components */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7fafc;
+      /* gray-100 */
     }
-  </script>
+
+    /* Styling for the noUiSlider */
+    .noUi-target {
+      background: #E5E7EB;
+      /* gray-200 */
+      border-radius: 9999px;
+      border: none;
+      box-shadow: none;
+    }
+
+    .noUi-connect {
+      background: #4f46e5;
+      /* indigo-600 */
+      border-radius: 9999px;
+    }
+
+    .noUi-handle {
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      background: #4f46e5;
+      /* indigo-600 */
+      cursor: pointer;
+    }
+
+    .noUi-handle:focus {
+      outline: none;
+    }
+
+    .noUi-handle::after,
+    .noUi-handle::before {
+      display: none;
+    }
+
+    /* Custom styling for the details/summary accordion */
+    details>summary {
+      list-style: none;
+    }
+
+    details>summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details .summary-arrow {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    details[open] .summary-arrow {
+      transform: rotate(90deg);
+    }
+
+    /* Custom checkbox styling */
+    .custom-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      height: 1.25rem;
+      width: 1.25rem;
+      background-color: #e5e7eb;
+      border-radius: 0.25rem;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .custom-checkbox:checked {
+      background-color: #4f46e5;
+    }
+
+    .custom-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 0.45rem;
+      top: 0.2rem;
+      width: 0.3rem;
+      height: 0.6rem;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  </style>
 </head>
 
-<body>
-  <div class="card">
-    <h1>🍳 Name Kitchen</h1>
+<body class="antialiased text-gray-800">
 
-    <label for="minLength">Minimum Length</label>
-    <input type="number" id="minLength" value="4" min="2">
+  <div class="min-h-screen container mx-auto p-4 lg:p-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-    <label for="maxLength">Maximum Length</label>
-    <input type="number" id="maxLength" value="7" min="3">
+      <!-- Left Column: Controls -->
+      <div class="lg:col-span-2">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+          <!-- Header -->
+          <div class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">🍳 Name Kitchen</h1>
+            <p class="text-gray-500 mt-2">Craft the perfect name for your next big idea.</p>
+          </div>
 
-    <label for="tone">Name Type</label>
-    <select id="tone">
-      <option value="neutral">Neutral</option>
-      <option value="soft">Soft</option>
-      <option value="hard">Hard</option>
-      <option value="fantasy">Fantasy</option>
-      <option value="brand">Brand Name</option>
-    </select>
+          <!-- Main Controls -->
+          <div class="space-y-6">
+            <!-- Length Slider -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Name Length: <span id="lengthValue"
+                  class="font-semibold text-indigo-600">4 - 8</span></label>
+              <div id="lengthSlider" class="mt-4"></div>
+            </div>
 
-    <label for="startWith">Start With</label>
-    <select id="startWith">
-      <option value="any">Any</option>
-      <option value="vowel">Vowel</option>
-      <option value="consonant">Consonant</option>
-      <option disabled>──────────</option>
-      <option value="a">A</option>
-      <option value="b">B</option>
-      <option value="c">C</option>
-      <option value="d">D</option>
-      <option value="e">E</option>
-      <option value="f">F</option>
-      <option value="g">G</option>
-      <option value="h">H</option>
-      <option value="i">I</option>
-      <option value="j">J</option>
-      <option value="k">K</option>
-      <option value="l">L</option>
-      <option value="m">M</option>
-      <option value="n">N</option>
-      <option value="o">O</option>
-      <option value="p">P</option>
-      <option value="q">Q</option>
-      <option value="r">R</option>
-      <option value="s">S</option>
-      <option value="t">T</option>
-      <option value="u">U</option>
-      <option value="v">V</option>
-      <option value="w">W</option>
-      <option value="x">X</option>
-      <option value="y">Y</option>
-      <option value="z">Z</option>
-    </select>
+            <!-- Row for Tone and Start With -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="tone" class="block text-sm font-medium text-gray-700">Name Style</label>
+                <select id="tone"
+                  class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  <option value="neutral">Neutral</option>
+                  <option value="brand">Brandable</option>
+                  <option value="soft">Soft</option>
+                  <option value="hard">Hard</option>
+                  <option value="fantasy">Fantasy</option>
+                </select>
+              </div>
+              <div>
+                <label for="startWith" class="block text-sm font-medium text-gray-700">Starts With</label>
+                <select id="startWith"
+                  class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  <option value="any">Any</option>
+                  <option value="vowel">Vowel</option>
+                  <option value="consonant">Consonant</option>
+                  <option disabled>──────────</option>
+                  <!-- Options A-Z will be added by JS -->
+                </select>
+              </div>
+            </div>
 
-    <label for="exclude">Exclude Letters/Clusters (comma-separated)</label>
-    <input type="text" id="exclude" placeholder="x, zz, qu">
+            <!-- Advanced Settings Accordion -->
+            <details id="advanced-options" class="bg-gray-50 p-4 rounded-lg">
+              <summary class="flex justify-between items-center cursor-pointer font-medium text-gray-800">
+                Advanced Controls
+                <svg class="summary-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </summary>
+              <div class="mt-4 border-t border-gray-200 pt-4 space-y-4">
+                <div>
+                  <label for="exclude" class="block text-sm font-medium text-gray-700">Exclude Letters/Clusters</label>
+                  <input type="text" id="exclude" placeholder="e.g., x, zz, qu"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">Toggle Phonemes</h4>
+                  <div id="phoneme-toggles" class="space-y-3">
+                    <!-- Phoneme toggles will be generated by JS -->
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
 
-    <button id="generateBtn">Generate Name</button>
-    <div id="output"></div>
+          <!-- Generate Button -->
+          <div class="mt-8">
+            <button id="generateBtn"
+              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+              Generate Name
+            </button>
+          </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="mt-8 bg-white p-6 sm:p-8 rounded-2xl shadow-lg text-center">
+          <h2 class="text-lg font-medium text-gray-500">Your New Name</h2>
+          <div id="output"
+            class="text-4xl sm:text-5xl font-bold text-indigo-600 mt-2 min-h-[60px] flex items-center justify-center">
+            Click Generate!
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Ad space / Extra Info -->
+      <div class="lg:col-span-1 space-y-8">
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <h3 class="font-bold text-lg mb-2">How it works</h3>
+          <p class="text-sm text-gray-600">
+            Name Kitchen uses phonetics and probability to blend vowels, consonants, and letter clusters into unique,
+            pronounceable names. Adjust the settings to find the perfect fit for your project!
+          </p>
+        </div>
+        <!-- <div class="bg-gray-200 h-64 rounded-2xl flex items-center justify-center text-gray-500">
+                    <p>Future Ad Space</p>
+                </div>
+                 <div class="bg-gray-200 h-64 rounded-2xl flex items-center justify-center text-gray-500">
+                    <p>Future Ad Space</p>
+                </div> -->
+      </div>
+
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // === PHONEME POOLS & CONSTANTS ===
+      const PROB_VOWEL_CLUSTER = 0.2;
+      const PROB_CONSONANT_CLUSTER = 0.25;
+      const PROB_START_WITH_VOWEL = 0.3;
+      const PROB_ADD_FINAL_CLUSTER = 0.4;
+      const MAX_ATTEMPTS = 1000;
+
+      const phonemes = {
+        vowels: ["a", "e", "i", "o", "u"],
+        vowelClusters: ["ae", "ai", "au", "ea", "ee", "ei", "eo", "eu", "ie", "io", "oa", "oe", "oo", "ou", "ua", "ue", "ui", "ia"],
+        consonants: ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
+        consonantClusters: [
+          "bl", "br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "kn", "ph", "pl", "pr",
+          "qu", "sc", "scr", "sh", "shr", "sk", "sl", "sm", "sn", "sp", "spl", "spr", "st", "str",
+          "sw", "th", "tr", "tw", "vr", "wh", "xr", "zh", "zr", "gn", "brn"
+        ],
+        finalClusters: [
+          "nd", "ng", "nt", "rk", "sh", "th", "ld", "rt", "st", "rd", "rm", "rn", "lp", "lt", "mp", "ft", "pt",
+          "sk", "sp", "zz", "xx", "nch", "rch", "rth", "nth", "stle"
+        ]
+      };
+
+      const toneBias = {
+        soft: ["l", "m", "n", "r", "s", "v"],
+        hard: ["k", "g", "t", "d", "z", "x"],
+        fantasy: ["ae", "qu", "dr", "el", "or", "ul", "th", "ar", "ion", "ys", "yx", "zar"],
+        brand: ["ly", "zo", "ex", "iq", "sy", "io", "za", "ix", "fy"]
+      };
+
+      // === UI ELEMENT REFERENCES ===
+      const lengthSlider = document.getElementById('lengthSlider');
+      const lengthValue = document.getElementById('lengthValue');
+      const generateBtn = document.getElementById('generateBtn');
+      const outputEl = document.getElementById('output');
+      const startWithSelect = document.getElementById('startWith');
+      const phonemeTogglesContainer = document.getElementById('phoneme-toggles');
+
+      // === INITIALIZATION ===
+
+      // 1. Initialize Length Slider
+      noUiSlider.create(lengthSlider, {
+        start: [4, 8],
+        connect: true,
+        range: {
+          'min': 2,
+          'max': 20
+        },
+        step: 1,
+        tooltips: false,
+        format: {
+          to: value => Math.round(value),
+          from: value => Number(value)
+        }
+      });
+
+      lengthSlider.noUiSlider.on('update', function (values) {
+        lengthValue.textContent = `${values[0]} - ${values[1]}`;
+      });
+
+      // 2. Populate 'Starts With' dropdown
+      'abcdefghijklmnopqrstuvwxyz'.split('').forEach(letter => {
+        const option = document.createElement('option');
+        option.value = letter;
+        option.textContent = letter.toUpperCase();
+        startWithSelect.appendChild(option);
+      });
+
+      // 3. Populate Advanced Phoneme Toggles
+      Object.keys(phonemes).forEach(key => {
+        const groupContainer = document.createElement('div');
+        const title = document.createElement('h5');
+        title.className = 'font-semibold capitalize text-sm text-gray-600 mb-2';
+        title.textContent = key.replace(/([A-Z])/g, ' $1'); // e.g., vowelClusters -> Vowel Clusters
+        groupContainer.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2';
+
+        phonemes[key].forEach(p => {
+          const label = document.createElement('label');
+          label.className = 'flex items-center space-x-2 text-sm';
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'custom-checkbox phoneme-checkbox';
+          checkbox.checked = true;
+          checkbox.dataset.phoneme = p;
+          checkbox.dataset.group = key;
+          label.appendChild(checkbox);
+          const text = document.createElement('span');
+          text.textContent = p;
+          label.appendChild(text);
+          grid.appendChild(label);
+        });
+        groupContainer.appendChild(grid);
+        phonemeTogglesContainer.appendChild(groupContainer);
+      });
+
+
+      // === UTILITY FUNCTIONS ===
+      const getRandomInt = (max) => Math.floor(Math.random() * max);
+      const choose = (arr) => arr.length > 0 ? arr[getRandomInt(arr.length)] : '';
+
+
+      // === CORE NAME GENERATION LOGIC ===
+      const generateQuasiName = (options) => {
+        const sets = options.filteredPhonemes;
+        const firstLetter = options.startWith.toLowerCase();
+        let useVowel;
+
+        if (firstLetter === 'vowel') useVowel = true;
+        else if (firstLetter === 'consonant') useVowel = false;
+        else if (firstLetter === 'any') useVowel = Math.random() < PROB_START_WITH_VOWEL;
+        else useVowel = sets.vowels.includes(firstLetter) || sets.vowelClusters.some(vc => vc.startsWith(firstLetter));
+
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+          let name = "";
+          let currentIsVowel = useVowel;
+
+          if (!['any', 'vowel', 'consonant'].includes(firstLetter)) {
+            let startingPhoneme;
+            if (currentIsVowel) {
+              startingPhoneme = choose(sets.vowelClusters.concat(sets.vowels).filter(p => p.startsWith(firstLetter)));
+            } else {
+              startingPhoneme = choose(sets.consonantClusters.concat(sets.consonants).filter(p => p.startsWith(firstLetter)));
+            }
+            name = startingPhoneme || firstLetter; // Fallback to just the letter
+            currentIsVowel = !currentIsVowel;
+          }
+
+
+          while (name.length < options.maxLength) {
+            let phoneme;
+            if (currentIsVowel) {
+              phoneme = Math.random() < PROB_VOWEL_CLUSTER ? choose(sets.vowelClusters) : choose(sets.vowels);
+            } else {
+              let pool = Math.random() < PROB_CONSONANT_CLUSTER ? sets.consonantClusters : sets.consonants;
+              if (options.tone !== 'neutral') {
+                const bias = toneBias[options.tone] || [];
+                pool = pool.concat(bias.filter(p => !options.exclude.includes(p)));
+                if (options.tone === 'brand') pool = pool.concat(bias);
+              }
+              phoneme = choose(pool);
+            }
+
+            if (!phoneme || (name.length + phoneme.length) > options.maxLength) break;
+            name += phoneme;
+            currentIsVowel = !currentIsVowel;
+          }
+
+          if (name.length < options.maxLength && Math.random() < PROB_ADD_FINAL_CLUSTER) {
+            const finalCluster = choose(sets.finalClusters);
+            if (finalCluster && (name.length + finalCluster.length <= options.maxLength)) {
+              name += finalCluster;
+            }
+          }
+
+          // Cleanup and validation
+          name = name.replace(/(.)\1{2,}/g, '$1');
+          name = name.charAt(0).toUpperCase() + name.slice(1);
+
+          if (name.length >= options.minLength) {
+            return name;
+          }
+        }
+        return "(Try different settings)";
+      };
+
+
+      // === EVENT LISTENER FOR GENERATION ===
+      generateBtn.addEventListener("click", () => {
+        // 1. Get manually excluded letters/clusters
+        const manualExcludes = document.getElementById("exclude").value
+          .split(',')
+          .map(e => e.trim().toLowerCase())
+          .filter(Boolean);
+
+        // 2. Get phonemes unchecked in advanced settings
+        const phonemeExcludes = Array.from(document.querySelectorAll('.phoneme-checkbox:not(:checked)'))
+          .map(cb => cb.dataset.phoneme);
+
+        const allExcludes = [...new Set([...manualExcludes, ...phonemeExcludes])];
+
+        // 3. Filter phoneme sets based on all exclusions
+        const filteredPhonemes = Object.fromEntries(
+          Object.entries(phonemes).map(([key, value]) => [
+            key,
+            value.filter(p => !allExcludes.includes(p))
+          ])
+        );
+
+        // 4. Gather all options
+        const sliderValues = lengthSlider.noUiSlider.get();
+        const options = {
+          minLength: sliderValues[0],
+          maxLength: sliderValues[1],
+          tone: document.getElementById("tone").value,
+          startWith: document.getElementById("startWith").value,
+          exclude: allExcludes,
+          filteredPhonemes: filteredPhonemes
+        };
+
+        // 5. Generate and display name
+        outputEl.textContent = '...'; // Loading indicator
+        setTimeout(() => { // Gives a feeling of "thinking"
+          const newName = generateQuasiName(options);
+          outputEl.textContent = newName;
+        }, 50);
+
+      });
+    });
+  </script>
 </body>
 
 </html>
