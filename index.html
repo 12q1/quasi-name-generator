@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,6 +8,11 @@
   <meta name="description"
     content="Generate unique and brandable names with advanced controls. Perfect for startups, projects, and creative endeavors.">
   <meta name="keywords" content="name generator, brand name generator, startup name, project name, fantasy name">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6TKZCJ6SX"></script>
@@ -18,11 +24,6 @@
     gtag('config', 'G-Y6TKZCJ6SX');
   </script>
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -32,17 +33,16 @@
 
   <!-- Custom Styles -->
   <style>
-    /* Custom styles to complement Tailwind and for specific components */
+    /* Base styles */
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f7fafc;
       /* gray-100 */
     }
 
-    /* Styling for the noUiSlider */
+    /* noUiSlider Styling */
     .noUi-target {
       background: #E5E7EB;
-      /* gray-200 */
       border-radius: 9999px;
       border: none;
       box-shadow: none;
@@ -50,7 +50,6 @@
 
     .noUi-connect {
       background: #4f46e5;
-      /* indigo-600 */
       border-radius: 9999px;
     }
 
@@ -59,7 +58,6 @@
       border: 2px solid white;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
       background: #4f46e5;
-      /* indigo-600 */
       cursor: pointer;
     }
 
@@ -72,7 +70,7 @@
       display: none;
     }
 
-    /* Custom styling for the details/summary accordion */
+    /* Accordion Styling */
     details>summary {
       list-style: none;
     }
@@ -89,7 +87,7 @@
       transform: rotate(90deg);
     }
 
-    /* Custom checkbox styling */
+    /* Custom Checkbox Styling */
     .custom-checkbox {
       appearance: none;
       -webkit-appearance: none;
@@ -118,6 +116,59 @@
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
+
+    /* Tooltip Styling */
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip {
+      visibility: hidden;
+      width: 220px;
+      background-color: #1f2937;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 10;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .tooltip-container:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #1f2937 transparent transparent transparent;
+    }
+
+    /* Animation for copied message */
+    .copied-toast {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .copied-toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -126,28 +177,33 @@
   <div class="min-h-screen container mx-auto p-4 lg:p-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      <!-- Left Column: Controls -->
-      <div class="lg:col-span-2">
+      <!-- Left Column: Controls & Output -->
+      <div class="lg:col-span-2 space-y-8">
+        <!-- Controls Card -->
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
-          <!-- Header -->
           <div class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">🍳 Name Kitchen</h1>
             <p class="text-gray-500 mt-2">Craft the perfect name for your next big idea.</p>
           </div>
-
-          <!-- Main Controls -->
           <div class="space-y-6">
-            <!-- Length Slider -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Name Length: <span id="lengthValue"
-                  class="font-semibold text-indigo-600">4 - 8</span></label>
+                  class="font-semibold text-indigo-600">4 - 7</span></label>
               <div id="lengthSlider" class="mt-4"></div>
             </div>
-
-            <!-- Row for Tone and Start With -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label for="tone" class="block text-sm font-medium text-gray-700">Name Style</label>
+                <label for="tone" class="block text-sm font-medium text-gray-700">Name Style
+                  <div class="tooltip-container ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-gray-400" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="tooltip">Brandable: Catchy, modern (e.g., 'Zylio'). Soft: Uses 'l, m, n'. Hard: Uses
+                      'k, g, t'. Fantasy: Mythical sounding.</span>
+                  </div>
+                </label>
                 <select id="tone"
                   class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                   <option value="neutral">Neutral</option>
@@ -164,13 +220,9 @@
                   <option value="any">Any</option>
                   <option value="vowel">Vowel</option>
                   <option value="consonant">Consonant</option>
-                  <option disabled>──────────</option>
-                  <!-- Options A-Z will be added by JS -->
                 </select>
               </div>
             </div>
-
-            <!-- Advanced Settings Accordion -->
             <details id="advanced-options" class="bg-gray-50 p-4 rounded-lg">
               <summary class="flex justify-between items-center cursor-pointer font-medium text-gray-800">
                 Advanced Controls
@@ -185,51 +237,64 @@
                   <input type="text" id="exclude" placeholder="e.g., x, zz, qu"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-                <div>
-                  <h4 class="text-sm font-medium text-gray-700 mb-2">Toggle Phonemes</h4>
-                  <div id="phoneme-toggles" class="space-y-3">
-                    <!-- Phoneme toggles will be generated by JS -->
-                  </div>
+                <div id="phoneme-toggles" class="space-y-4">
+                  <!-- Phoneme toggles will be generated by JS -->
                 </div>
               </div>
             </details>
           </div>
-
-          <!-- Generate Button -->
           <div class="mt-8">
             <button id="generateBtn"
               class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
-              Generate Name
+              Generate Names
             </button>
           </div>
         </div>
 
-        <!-- Output Section -->
-        <div class="mt-8 bg-white p-6 sm:p-8 rounded-2xl shadow-lg text-center">
-          <h2 class="text-lg font-medium text-gray-500">Your New Name</h2>
-          <div id="output"
-            class="text-4xl sm:text-5xl font-bold text-indigo-600 mt-2 min-h-[60px] flex items-center justify-center">
-            Click Generate!
+        <!-- Output Card -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">Generated Names</h2>
+          <div id="output" class="space-y-3">
+            <p class="text-gray-500 text-center py-8">Click "Generate Names" to start!</p>
           </div>
+          <div id="copied-toast"
+            class="fixed bottom-10 right-10 bg-gray-900 text-white py-2 px-4 rounded-lg shadow-xl copied-toast">Copied
+            to clipboard!</div>
         </div>
-
       </div>
 
-      <!-- Right Column: Ad space / Extra Info -->
+      <!-- Right Column: Favorites & History -->
       <div class="lg:col-span-1 space-y-8">
+        <!-- Favorites Card -->
         <div class="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 class="font-bold text-lg mb-2">How it works</h3>
-          <p class="text-sm text-gray-600">
-            Name Kitchen uses phonetics and probability to blend vowels, consonants, and letter clusters into unique,
-            pronounceable names. Adjust the settings to find the perfect fit for your project!
-          </p>
+          <h3 class="font-bold text-lg mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" viewBox="0 0 20 20"
+              fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd" />
+            </svg>
+            Favorites
+          </h3>
+          <div id="favorites-list" class="space-y-2">
+            <p class="text-gray-500 text-sm text-center">Your favorite names will appear here.</p>
+          </div>
         </div>
-        <!-- <div class="bg-gray-200 h-64 rounded-2xl flex items-center justify-center text-gray-500">
-                    <p>Future Ad Space</p>
-                </div>
-                 <div class="bg-gray-200 h-64 rounded-2xl flex items-center justify-center text-gray-500">
-                    <p>Future Ad Space</p>
-                </div> -->
+        <!-- History Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <h3 class="font-bold text-lg mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-500" viewBox="0 0 20 20"
+              fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
+                clip-rule="evenodd" />
+            </svg>
+            History
+          </h3>
+          <div id="history-list" class="space-y-2 max-h-96 overflow-y-auto">
+            <p class="text-gray-500 text-sm text-center">Recently generated names will show up here.</p>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -237,29 +302,26 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // === STATE ===
+      let favorites = [];
+      let history = [];
+
       // === PHONEME POOLS & CONSTANTS ===
       const PROB_VOWEL_CLUSTER = 0.2;
       const PROB_CONSONANT_CLUSTER = 0.25;
       const PROB_START_WITH_VOWEL = 0.3;
       const PROB_ADD_FINAL_CLUSTER = 0.4;
-      const MAX_ATTEMPTS = 1000;
+      const MAX_ATTEMPTS_PER_NAME = 100;
+      const NAMES_TO_GENERATE = 8;
 
-      const phonemes = {
+      const phonemes = { /* Phoneme data is unchanged */
         vowels: ["a", "e", "i", "o", "u"],
         vowelClusters: ["ae", "ai", "au", "ea", "ee", "ei", "eo", "eu", "ie", "io", "oa", "oe", "oo", "ou", "ua", "ue", "ui", "ia"],
         consonants: ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
-        consonantClusters: [
-          "bl", "br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "kn", "ph", "pl", "pr",
-          "qu", "sc", "scr", "sh", "shr", "sk", "sl", "sm", "sn", "sp", "spl", "spr", "st", "str",
-          "sw", "th", "tr", "tw", "vr", "wh", "xr", "zh", "zr", "gn", "brn"
-        ],
-        finalClusters: [
-          "nd", "ng", "nt", "rk", "sh", "th", "ld", "rt", "st", "rd", "rm", "rn", "lp", "lt", "mp", "ft", "pt",
-          "sk", "sp", "zz", "xx", "nch", "rch", "rth", "nth", "stle"
-        ]
+        consonantClusters: ["bl", "br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "kn", "ph", "pl", "pr", "qu", "sc", "scr", "sh", "shr", "sk", "sl", "sm", "sn", "sp", "spl", "spr", "st", "str", "sw", "th", "tr", "tw", "vr", "wh", "xr", "zh", "zr", "gn", "brn"],
+        finalClusters: ["nd", "ng", "nt", "rk", "sh", "th", "ld", "rt", "st", "rd", "rm", "rn", "lp", "lt", "mp", "ft", "pt", "sk", "sp", "zz", "xx", "nch", "rch", "rth", "nth", "stle"]
       };
-
-      const toneBias = {
+      const toneBias = { /* Tone bias data is unchanged */
         soft: ["l", "m", "n", "r", "s", "v"],
         hard: ["k", "g", "t", "d", "z", "x"],
         fantasy: ["ae", "qu", "dr", "el", "or", "ul", "th", "ar", "ion", "ys", "yx", "zar"],
@@ -273,100 +335,29 @@
       const outputEl = document.getElementById('output');
       const startWithSelect = document.getElementById('startWith');
       const phonemeTogglesContainer = document.getElementById('phoneme-toggles');
+      const favoritesListEl = document.getElementById('favorites-list');
+      const historyListEl = document.getElementById('history-list');
+      const copiedToastEl = document.getElementById('copied-toast');
 
-      // === INITIALIZATION ===
-
-      // 1. Initialize Length Slider
-      noUiSlider.create(lengthSlider, {
-        start: [4, 8],
-        connect: true,
-        range: {
-          'min': 2,
-          'max': 20
-        },
-        step: 1,
-        tooltips: false,
-        format: {
-          to: value => Math.round(value),
-          from: value => Number(value)
-        }
-      });
-
-      lengthSlider.noUiSlider.on('update', function (values) {
-        lengthValue.textContent = `${values[0]} - ${values[1]}`;
-      });
-
-      // 2. Populate 'Starts With' dropdown
-      'abcdefghijklmnopqrstuvwxyz'.split('').forEach(letter => {
-        const option = document.createElement('option');
-        option.value = letter;
-        option.textContent = letter.toUpperCase();
-        startWithSelect.appendChild(option);
-      });
-
-      // 3. Populate Advanced Phoneme Toggles
-      Object.keys(phonemes).forEach(key => {
-        const groupContainer = document.createElement('div');
-        const title = document.createElement('h5');
-        title.className = 'font-semibold capitalize text-sm text-gray-600 mb-2';
-        title.textContent = key.replace(/([A-Z])/g, ' $1'); // e.g., vowelClusters -> Vowel Clusters
-        groupContainer.appendChild(title);
-
-        const grid = document.createElement('div');
-        grid.className = 'grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2';
-
-        phonemes[key].forEach(p => {
-          const label = document.createElement('label');
-          label.className = 'flex items-center space-x-2 text-sm';
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.className = 'custom-checkbox phoneme-checkbox';
-          checkbox.checked = true;
-          checkbox.dataset.phoneme = p;
-          checkbox.dataset.group = key;
-          label.appendChild(checkbox);
-          const text = document.createElement('span');
-          text.textContent = p;
-          label.appendChild(text);
-          grid.appendChild(label);
-        });
-        groupContainer.appendChild(grid);
-        phonemeTogglesContainer.appendChild(groupContainer);
-      });
-
-
-      // === UTILITY FUNCTIONS ===
+      // === UTILITY & CORE LOGIC ===
       const getRandomInt = (max) => Math.floor(Math.random() * max);
       const choose = (arr) => arr.length > 0 ? arr[getRandomInt(arr.length)] : '';
-
-
-      // === CORE NAME GENERATION LOGIC ===
-      const generateQuasiName = (options) => {
+      const generateQuasiName = (options) => { /* Generation logic is mostly unchanged, just returns a single name */
         const sets = options.filteredPhonemes;
         const firstLetter = options.startWith.toLowerCase();
         let useVowel;
-
         if (firstLetter === 'vowel') useVowel = true;
         else if (firstLetter === 'consonant') useVowel = false;
         else if (firstLetter === 'any') useVowel = Math.random() < PROB_START_WITH_VOWEL;
         else useVowel = sets.vowels.includes(firstLetter) || sets.vowelClusters.some(vc => vc.startsWith(firstLetter));
-
-        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+        for (let attempt = 0; attempt < MAX_ATTEMPTS_PER_NAME; attempt++) {
           let name = "";
           let currentIsVowel = useVowel;
-
           if (!['any', 'vowel', 'consonant'].includes(firstLetter)) {
-            let startingPhoneme;
-            if (currentIsVowel) {
-              startingPhoneme = choose(sets.vowelClusters.concat(sets.vowels).filter(p => p.startsWith(firstLetter)));
-            } else {
-              startingPhoneme = choose(sets.consonantClusters.concat(sets.consonants).filter(p => p.startsWith(firstLetter)));
-            }
-            name = startingPhoneme || firstLetter; // Fallback to just the letter
+            let startingPhoneme = choose((currentIsVowel ? sets.vowelClusters.concat(sets.vowels) : sets.consonantClusters.concat(sets.consonants)).filter(p => p.startsWith(firstLetter)));
+            name = startingPhoneme || firstLetter;
             currentIsVowel = !currentIsVowel;
           }
-
-
           while (name.length < options.maxLength) {
             let phoneme;
             if (currentIsVowel) {
@@ -380,54 +371,65 @@
               }
               phoneme = choose(pool);
             }
-
             if (!phoneme || (name.length + phoneme.length) > options.maxLength) break;
             name += phoneme;
             currentIsVowel = !currentIsVowel;
           }
-
           if (name.length < options.maxLength && Math.random() < PROB_ADD_FINAL_CLUSTER) {
             const finalCluster = choose(sets.finalClusters);
             if (finalCluster && (name.length + finalCluster.length <= options.maxLength)) {
               name += finalCluster;
             }
           }
-
-          // Cleanup and validation
           name = name.replace(/(.)\1{2,}/g, '$1');
-          name = name.charAt(0).toUpperCase() + name.slice(1);
-
           if (name.length >= options.minLength) {
-            return name;
+            return name.charAt(0).toUpperCase() + name.slice(1);
           }
         }
-        return "(Try different settings)";
+        return null; // Return null if no valid name found
       };
 
+      // === RENDER/UPDATE UI FUNCTIONS ===
+      const renderList = (element, items, emptyMessage, itemClass = '') => {
+        element.innerHTML = '';
+        if (items.length === 0) {
+          element.innerHTML = `<p class="text-gray-500 text-sm text-center">${emptyMessage}</p>`;
+          return;
+        }
+        items.forEach(name => {
+          const isFavorited = favorites.includes(name);
+          const favIconPath = isFavorited ? "M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" : "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z";
+          const favIconClass = isFavorited ? 'text-red-500' : 'text-gray-400 hover:text-red-500';
 
-      // === EVENT LISTENER FOR GENERATION ===
-      generateBtn.addEventListener("click", () => {
-        // 1. Get manually excluded letters/clusters
-        const manualExcludes = document.getElementById("exclude").value
-          .split(',')
-          .map(e => e.trim().toLowerCase())
-          .filter(Boolean);
+          const itemHTML = `
+                <div class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 ${itemClass}">
+                    <span class="font-semibold text-lg text-gray-800">${name}</span>
+                    <div class="flex items-center space-x-3">
+                        <button class="favorite-btn" data-name="${name}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-colors ${favIconClass}" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="${favIconPath}" clip-rule="evenodd" /></svg>
+                        </button>
+                        <button class="copy-btn" data-name="${name}">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        </button>
+                    </div>
+                </div>`;
+          element.insertAdjacentHTML('beforeend', itemHTML);
+        });
+      };
 
-        // 2. Get phonemes unchecked in advanced settings
-        const phonemeExcludes = Array.from(document.querySelectorAll('.phoneme-checkbox:not(:checked)'))
-          .map(cb => cb.dataset.phoneme);
+      const updateAllLists = () => {
+        renderList(outputEl, history.length > 0 ? history[0] : [], 'Click "Generate Names" to start!');
+        renderList(favoritesListEl, favorites, 'Your favorite names will appear here.');
+        const flatHistory = history.flat();
+        renderList(historyListEl, flatHistory, 'Recently generated names will show up here.');
+      };
 
+      // === EVENT HANDLERS ===
+      const handleGenerateClick = () => {
+        const manualExcludes = document.getElementById("exclude").value.split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
+        const phonemeExcludes = Array.from(document.querySelectorAll('.phoneme-checkbox:not(:checked)')).map(cb => cb.dataset.phoneme);
         const allExcludes = [...new Set([...manualExcludes, ...phonemeExcludes])];
-
-        // 3. Filter phoneme sets based on all exclusions
-        const filteredPhonemes = Object.fromEntries(
-          Object.entries(phonemes).map(([key, value]) => [
-            key,
-            value.filter(p => !allExcludes.includes(p))
-          ])
-        );
-
-        // 4. Gather all options
+        const filteredPhonemes = Object.fromEntries(Object.entries(phonemes).map(([key, value]) => [key, value.filter(p => !allExcludes.includes(p))]));
         const sliderValues = lengthSlider.noUiSlider.get();
         const options = {
           minLength: sliderValues[0],
@@ -438,13 +440,98 @@
           filteredPhonemes: filteredPhonemes
         };
 
-        // 5. Generate and display name
-        outputEl.textContent = '...'; // Loading indicator
-        setTimeout(() => { // Gives a feeling of "thinking"
-          const newName = generateQuasiName(options);
-          outputEl.textContent = newName;
+        outputEl.innerHTML = '<p class="text-gray-500 text-center py-8">Generating...</p>';
+        setTimeout(() => {
+          const newNames = new Set();
+          let attempts = 0;
+          while (newNames.size < NAMES_TO_GENERATE && attempts < 200) {
+            const name = generateQuasiName(options);
+            if (name) newNames.add(name);
+            attempts++;
+          }
+          const nameArray = Array.from(newNames);
+          history.unshift(nameArray);
+          if (history.length > 10) history.pop(); // Keep history to last 10 generations
+          updateAllLists();
         }, 50);
+      };
 
+      const handleListInteraction = (e) => {
+        const target = e.target.closest('button');
+        if (!target) return;
+        const name = target.dataset.name;
+
+        if (target.classList.contains('copy-btn')) {
+          // Use execCommand as a fallback for iframe environments
+          const textArea = document.createElement("textarea");
+          textArea.value = name;
+          textArea.style.position = "fixed"; // Avoid scrolling to bottom
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            copiedToastEl.classList.add('show');
+            setTimeout(() => copiedToastEl.classList.remove('show'), 2000);
+          } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+          }
+          document.body.removeChild(textArea);
+        }
+
+        if (target.classList.contains('favorite-btn')) {
+          if (favorites.includes(name)) {
+            favorites = favorites.filter(f => f !== name);
+          } else {
+            favorites.unshift(name);
+          }
+          updateAllLists();
+        }
+      };
+
+      // === INITIALIZATION ===
+      // 1. Length Slider
+      noUiSlider.create(lengthSlider, { start: [4, 7], connect: true, range: { 'min': 2, 'max': 20 }, step: 1, tooltips: false, format: { to: v => Math.round(v), from: v => Number(v) } });
+      lengthSlider.noUiSlider.on('update', values => lengthValue.textContent = `${values[0]} - ${values[1]}`);
+
+      // 2. 'Starts With' Dropdown
+      'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => startWithSelect.innerHTML += `<option value="${l}">${l.toUpperCase()}</option>`);
+
+      // 3. Advanced Phoneme Toggles
+      Object.keys(phonemes).forEach(key => {
+        const title = key.replace(/([A-Z])/g, ' $1');
+        const headerHTML = `
+            <div class="flex justify-between items-center">
+                <h5 class="font-semibold capitalize text-sm text-gray-600">${title}</h5>
+                <div class="flex space-x-2">
+                    <button data-group="${key}" data-action="select" class="text-xs font-medium text-indigo-600 hover:text-indigo-800">All</button>
+                    <button data-group="${key}" data-action="deselect" class="text-xs font-medium text-gray-500 hover:text-gray-700">None</button>
+                </div>
+            </div>`;
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 mt-2';
+        phonemes[key].forEach(p => {
+          grid.innerHTML += `<label class="flex items-center space-x-2 text-sm"><input type="checkbox" class="custom-checkbox phoneme-checkbox" checked data-phoneme="${p}" data-group="${key}"><span>${p}</span></label>`;
+        });
+        const groupContainer = document.createElement('div');
+        groupContainer.innerHTML = headerHTML;
+        groupContainer.appendChild(grid);
+        phonemeTogglesContainer.appendChild(groupContainer);
+      });
+
+      // 4. Set Initial State
+      updateAllLists();
+
+      // 5. Attach Event Listeners
+      generateBtn.addEventListener("click", handleGenerateClick);
+      document.body.addEventListener('click', handleListInteraction);
+      phonemeTogglesContainer.addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+          const group = e.target.dataset.group;
+          const action = e.target.dataset.action;
+          const shouldBeChecked = action === 'select';
+          document.querySelectorAll(`.phoneme-checkbox[data-group="${group}"]`).forEach(cb => cb.checked = shouldBeChecked);
+        }
       });
     });
   </script>
