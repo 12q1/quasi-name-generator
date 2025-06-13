@@ -179,7 +179,6 @@
       display: flex;
       justify-content: center;
     }
-
   </style>
 </head>
 
@@ -290,7 +289,7 @@
             </svg>
             Favorites
           </h3>
-          <div id="favorites-list" class="space-y-2">
+          <div id="favorites-list" class="space-y-2 max-h-96 overflow-y-auto">
             <p class="text-gray-500 text-sm text-center">Your favorite names will appear here.</p>
           </div>
         </div>
@@ -325,7 +324,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // === STATE ===
-      let favorites = [];
+      let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
       let history = [];
 
       // === PHONEME POOLS & CONSTANTS ===
@@ -507,6 +506,8 @@
           } else {
             favorites.unshift(name);
           }
+          // Save to localStorage
+          localStorage.setItem('favorites', JSON.stringify(favorites));
           updateAllLists();
         }
       };
