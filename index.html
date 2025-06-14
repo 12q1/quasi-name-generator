@@ -116,7 +116,7 @@
     }
 
     .custom-checkbox:checked {
-      background-color: #4f46e5;
+      background-color: rgb(107 114 128 / var(--tw-text-opacity, 1));
     }
 
     .custom-checkbox:checked::after {
@@ -211,7 +211,7 @@
           <div class="space-y-6">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Name Length: <span id="lengthValue"
-                  class="font-semibold text-indigo-600">3 - 6</span></label>
+                  class="font-semibold text-gray-800">3 - 6</span></label>
               <div id="lengthSlider" class="mt-4"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -228,7 +228,7 @@
                   </div>
                 </label>
                 <select id="tone"
-                  class="mt-1 block w-full pl-3 py-2 text-base border border-gray-300/50 bg-gray-50 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  class="mt-1 block w-full pl-3 py-2 text-base border border-gray-300/50 bg-gray-50 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md">
                   <option value="neutral">Neutral</option>
                   <option value="brand">Brandable</option>
                   <option value="soft">Soft</option>
@@ -239,7 +239,7 @@
               <div>
                 <label for="startWith" class="block text-sm font-medium text-gray-700">Starts With</label>
                 <select id="startWith"
-                  class="mt-1 block w-full pl-3 py-2 text-base border border-gray-300/50 bg-gray-50 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  class="mt-1 block w-full pl-3 py-2 text-base border border-gray-300/50 bg-gray-50 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md">
                   <option value="any">Any</option>
                   <option value="vowel">Vowel</option>
                   <option value="consonant">Consonant</option>
@@ -260,12 +260,12 @@
                     <label for="exclude" class="block text-sm font-medium text-gray-700">Exclude
                       Letters/Clusters</label>
                     <input type="text" id="exclude" placeholder="e.g., x, zz, qu"
-                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2">
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
                   </div>
                   <div>
                     <label for="numNamesInput" class="block text-sm font-medium text-gray-700">Number of Names</label>
                     <input type="number" id="numNamesInput" value="8" min="1" max="50"
-                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2">
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
                   </div>
                 </div>
                 <div id="probability-sliders" class="space-y-6 pt-2">
@@ -285,7 +285,7 @@
           </div>
           <div class="mt-8">
             <button id="generateBtn"
-              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-transform transform hover:scale-105">
               Generate Names
             </button>
           </div>
@@ -495,13 +495,13 @@
                     <span class="font-semibold text-lg text-gray-800" data-name-display="${name}">${name}</span>
                     <div class="flex items-center space-x-2">
                         <button class="edit-btn" data-name="${name}" title="Edit Name">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
                         </button>
                          <button class="favorite-btn" data-name="${name}" title="Favorite">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-colors ${favIconClass}" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="${favIconPath}" clip-rule="evenodd" /></svg>
                         </button>
                         <button class="copy-btn" data-name="${name}" title="Copy Name">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                         </button>
                     </div>
                 </div>`;
@@ -563,7 +563,7 @@
           params: generationParams
         };
 
-        outputEl.innerHTML = '<div class="flex justify-center items-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div><span class="ml-3 text-gray-500">Generating...</span></div>';
+        outputEl.innerHTML = '<div class="flex justify-center items-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div><span class="ml-3 text-gray-500">Generating...</span></div>';
         setTimeout(() => {
           const newNames = new Set();
           let attempts = 0;
@@ -666,7 +666,7 @@
       const probSliderConfig = {
         probVowelCluster: { label: 'Vowel Cluster Chance', start: initialGenerationParams.probVowelCluster * 100 },
         probConsonantCluster: { label: 'Consonant Cluster Chance', start: initialGenerationParams.probConsonantCluster * 100 },
-        probStartWithVowel: { label: 'Starts with Vowel %', start: initialGenerationParams.probStartWithVowel * 100 },
+        probStartWithVowel: { label: 'Starts with Vowel Chance', start: initialGenerationParams.probStartWithVowel * 100 },
         probAddFinalCluster: { label: 'Final Cluster Chance', start: initialGenerationParams.probAddFinalCluster * 100 }
       };
 
@@ -675,7 +675,7 @@
         const label = document.createElement('label');
         label.className = "block text-sm font-medium text-gray-700 mb-2";
         const valueSpan = document.createElement('span');
-        valueSpan.className = "font-semibold text-indigo-600";
+        valueSpan.className = "font-semibold text-gray-800";
         label.innerHTML = `${config.label}: `;
         label.appendChild(valueSpan);
 
@@ -702,11 +702,11 @@
       // 4. Advanced Phoneme Toggles
       Object.keys(phonemes).forEach(key => {
         const title = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-        const headerHTML = `<div class="flex justify-between items-center"><h5 class="font-semibold capitalize text-sm text-gray-600">${title}</h5><div class="flex space-x-2"><button data-group="${key}" data-action="select" class="text-xs font-medium text-indigo-600 hover:text-indigo-800">All</button><button data-group="${key}" data-action="deselect" class="text-xs font-medium text-gray-500 hover:text-gray-700">None</button></div></div>`;
+        const headerHTML = `<div class="flex justify-between items-center"><h5 class="font-semibold capitalize text-sm text-gray-600">${title}</h5><div class="flex space-x-2"><button data-group="${key}" data-action="select" class="text-xs font-medium text-gray-600 hover:text-gray-800">All</button><button data-group="${key}" data-action="deselect" class="text-xs font-medium text-gray-500 hover:text-gray-700">None</button></div></div>`;
         const grid = document.createElement('div');
         grid.className = 'grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 mt-2';
         phonemes[key].forEach(p => {
-          grid.innerHTML += `<label class="flex items-center space-x-2 text-sm"><input type="checkbox" class="custom-checkbox phoneme-checkbox" checked data-phoneme="${p}" data-group="${key}"><span>${p}</span></label>`;
+          grid.innerHTML += `<label class="flex items-center space-x-2 text-sm"><input type="checkbox" class="custom-checkbox phoneme-checkbox border border-gray-300/50" checked data-phoneme="${p}" data-group="${key}"><span>${p}</span></label>`;
         });
         const groupContainer = document.createElement('div');
         groupContainer.className = 'border-t border-gray-200 pt-4';
