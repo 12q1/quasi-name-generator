@@ -21,7 +21,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-Y6TKZCJ6SX');
   </script>
 
@@ -552,7 +551,15 @@
         } else if (button.classList.contains('favorite-btn')) {
           if (favorites.includes(name)) {
             favorites = favorites.filter(f => f !== name);
+            gtag('event', 'nk_unfavorite', {
+              'send_to': 'G-Y6TKZCJ6SX',
+              'data': `${name}`
+            });
           } else {
+            gtag('event', 'nk_favorite', {
+              'send_to': 'G-Y6TKZCJ6SX',
+              'data': `${name}`
+            });
             favorites.unshift(name);
           }
           localStorage.setItem('favorites', JSON.stringify(favorites));
