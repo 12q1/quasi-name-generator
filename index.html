@@ -298,8 +298,8 @@
             <div class="flex items-center space-x-3">
               <button id="export-generated-btn"
                 class="text-sm font-medium text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed">Export</button>
-              <button id="clear-generated-btn"
-                class="text-sm font-medium text-gray-600 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">Clear</button>
+              <!-- <button id="clear-generated-btn"
+                class="text-sm font-medium text-gray-600 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">Clear</button> -->
             </div>
           </div>
           <div id="output" class="space-y-3">
@@ -532,7 +532,6 @@
         const isHistoryEmpty = history.length === 0;
         const isFavoritesEmpty = favorites.length === 0;
         exportGeneratedBtn.disabled = isHistoryEmpty;
-        clearGeneratedBtn.disabled = isHistoryEmpty;
         exportHistoryBtn.disabled = isHistoryEmpty;
         clearHistoryBtn.disabled = isHistoryEmpty;
         exportFavsBtn.disabled = isFavoritesEmpty;
@@ -744,7 +743,6 @@
         }
       };
       clearHistoryBtn.addEventListener('click', handleClearHistory);
-      clearGeneratedBtn.addEventListener('click', handleClearHistory); // Both clear history for simplicity
       clearFavsBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to clear all favorites? This cannot be undone.')) {
           favorites = [];
