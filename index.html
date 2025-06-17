@@ -10,12 +10,10 @@
     content="Generate unique and brandable names with advanced controls. Perfect for startups, projects, and creative endeavors.">
   <meta name="keywords" content="name generator, brand name generator, startup name, project name, fantasy name">
 
-  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6TKZCJ6SX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -24,14 +22,11 @@
     gtag('config', 'G-Y6TKZCJ6SX');
   </script>
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- noUiSlider for Range Slider -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
 
-  <!-- Custom Styles -->
   <style>
     /* Base styles */
     body {
@@ -204,9 +199,7 @@
   <div class="min-h-screen container mx-auto p-4 lg:p-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      <!-- Left Column: Controls & Output -->
       <div class="lg:col-span-2 space-y-8">
-        <!-- Controls Card -->
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-300/50">
           <div class="space-y-6">
             <div>
@@ -248,7 +241,13 @@
             </div>
             <details id="advanced-options" class="bg-gray-50 p-4 rounded-lg border border-gray-300/50">
               <summary class="flex justify-between items-center cursor-pointer font-medium text-gray-800">
-                Advanced Controls
+                <span class="flex items-center">
+                  Advanced Controls
+                  <div class="tooltip-container ml-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      <span class="tooltip">Fine-tune the name generation engine. Adjust probabilities, add required text, and disable specific letters or sounds (phonemes).</span>
+                  </div>
+                </span>
                 <svg class="summary-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                   viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -257,24 +256,48 @@
               <div class="mt-4 border-t border-gray-200 pt-4 space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label for="exclude" class="block text-sm font-medium text-gray-700">Exclude
-                      Letters/Clusters</label>
-                    <input type="text" id="exclude" placeholder="e.g., x, zz, qu"
-                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                    <label for="must-start-with" class="block text-sm font-medium text-gray-700">Required Prefix</label>
+                    <input type="text" id="must-start-with" placeholder="e.g., Pro, Geo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                  </div>
+                  <div>
+                    <label for="must-end-with" class="block text-sm font-medium text-gray-700">Required Suffix</label>
+                    <input type="text" id="must-end-with" placeholder="e.g., ly, ify" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                  </div>
+                   <div>
+                    <label for="exclude" class="block text-sm font-medium text-gray-700">Exclude Letters/Clusters</label>
+                    <input type="text" id="exclude" placeholder="e.g., x, zz, qu" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
                   </div>
                   <div>
                     <label for="numNamesInput" class="block text-sm font-medium text-gray-700">Number of Names</label>
-                    <input type="number" id="numNamesInput" value="8" min="1" max="50"
-                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                    <input type="number" id="numNamesInput" value="8" min="1" max="50" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
                   </div>
                 </div>
                 <div id="probability-sliders" class="space-y-6 pt-2">
-                  <!-- Probability sliders will be generated here -->
+                  <p class="text-sm text-gray-600">Use sliders to control the chance of different sound combinations appearing in the names.</p>
                 </div>
                 <div id="phoneme-toggles" class="space-y-4">
-                  <!-- Phoneme toggles will be generated by JS -->
+                  <p class="text-sm text-gray-600">Uncheck any specific sounds (phonemes) you want to exclude from generation.</p>
                 </div>
-                <div class="mt-6 pt-6 border-t border-gray-200">
+                <div class="mt-6 pt-6 border-t border-gray-200 space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input type="text" id="save-preset-name" placeholder="New Preset Name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                    <button id="save-preset-btn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                      Save Current Preset
+                    </button>
+                  </div>
+                  <div>
+                    <label for="presets-select" class="block text-sm font-medium text-gray-700">Load Settings Preset</label>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <select id="presets-select" class="block w-full pl-3 py-2 text-base border border-gray-300/50 bg-gray-50 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md">
+                            <option value="default">Default</option>
+                        </select>
+                        <button id="delete-preset-btn" title="Delete Selected Preset" class="p-2 text-gray-400 hover:text-red-500 disabled:text-gray-300 disabled:cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                  </div>
                   <button id="reset-advanced-btn"
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Reset Advanced Controls
@@ -291,15 +314,12 @@
           </div>
         </div>
 
-        <!-- Output Card -->
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-300/50">
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-800">Generated Names</h2>
             <div class="flex items-center space-x-3">
               <button id="export-generated-btn"
                 class="text-sm font-medium text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed">Export</button>
-              <!-- <button id="clear-generated-btn"
-                class="text-sm font-medium text-gray-600 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">Clear</button> -->
             </div>
           </div>
           <div id="output" class="space-y-3">
@@ -311,9 +331,7 @@
         </div>
       </div>
 
-      <!-- Right Column: Favorites & History -->
       <div class="lg:col-span-1 space-y-8">
-        <!-- Favorites Card -->
         <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-300/50">
           <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold text-lg flex items-center">
@@ -332,11 +350,13 @@
                 class="text-sm font-medium text-gray-600 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">Clear</button>
             </div>
           </div>
+          <div class="mb-4">
+              <input type="search" id="favorites-search" placeholder="Search favorites..." class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+          </div>
           <div id="favorites-list" class="space-y-2 max-h-96 overflow-y-auto">
             <p class="text-gray-500 text-sm text-center">Your favorite names will appear here.</p>
           </div>
         </div>
-        <!-- History Card -->
         <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-300/50">
           <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold text-lg flex items-center">
@@ -355,11 +375,17 @@
                 class="text-sm font-medium text-gray-600 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">Clear</button>
             </div>
           </div>
+           <div class="mb-4">
+               <input type="search" id="history-search" placeholder="Search history..." class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+           </div>
+           <label class="flex items-center space-x-2 text-sm text-gray-600 mb-4 cursor-pointer">
+              <input type="checkbox" id="history-persist-toggle" class="custom-checkbox">
+              <span>Remember history across sessions</span>
+           </label>
           <div id="history-list" class="space-y-2 max-h-96 overflow-y-auto">
             <p class="text-gray-500 text-sm text-center">Recently generated names will show up here.</p>
           </div>
         </div>
-        <!-- About Card -->
         <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-300/50">
           <h3 class="font-bold text-lg mb-2">How it works</h3>
           <p class="text-sm text-gray-600">
@@ -375,8 +401,11 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // === STATE ===
+      let isHistoryPersistenceEnabled = JSON.parse(localStorage.getItem('isHistoryPersistenceEnabled')) ?? true;
       let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-      let history = [];
+      let history = (isHistoryPersistenceEnabled && JSON.parse(localStorage.getItem('nameHistory'))) || [];
+      let presets = JSON.parse(localStorage.getItem('namePresets')) || {};
+
       const initialGenerationParams = {
         probVowelCluster: 0.2,
         probConsonantCluster: 0.25,
@@ -416,12 +445,26 @@
       const probabilitySlidersContainer = document.getElementById('probability-sliders');
       const numNamesInput = document.getElementById('numNamesInput');
       const excludeInput = document.getElementById('exclude');
+      const mustStartWithInput = document.getElementById('must-start-with');
+      const mustEndWithInput = document.getElementById('must-end-with');
+
+      // Search Inputs
+      const favoritesSearchInput = document.getElementById('favorites-search');
+      const historySearchInput = document.getElementById('history-search');
+
+      // History Persistence
+      const historyPersistToggle = document.getElementById('history-persist-toggle');
+
+      // Presets
+      const presetsSelect = document.getElementById('presets-select');
+      const savePresetBtn = document.getElementById('save-preset-btn');
+      const savePresetNameInput = document.getElementById('save-preset-name');
+      const deletePresetBtn = document.getElementById('delete-preset-btn');
 
       // Buttons
       const exportFavsBtn = document.getElementById('export-favs-btn');
       const clearFavsBtn = document.getElementById('clear-favs-btn');
       const exportGeneratedBtn = document.getElementById('export-generated-btn');
-      const clearGeneratedBtn = document.getElementById('clear-generated-btn');
       const exportHistoryBtn = document.getElementById('export-history-btn');
       const clearHistoryBtn = document.getElementById('clear-history-btn');
       const resetAdvancedBtn = document.getElementById('reset-advanced-btn');
@@ -429,63 +472,78 @@
       // === UTILITY & CORE LOGIC ===
       const getRandomInt = (max) => Math.floor(Math.random() * max);
       const choose = (arr) => arr.length > 0 ? arr[getRandomInt(arr.length)] : '';
+      
+      const isVowel = (char) => phonemes.vowels.includes(char);
 
       const generateQuasiName = (options) => {
-        const sets = options.filteredPhonemes;
-        const firstLetter = options.startWith.toLowerCase();
-        let useVowel;
-        if (firstLetter === 'vowel') useVowel = true;
-        else if (firstLetter === 'consonant') useVowel = false;
-        else if (firstLetter === 'any') useVowel = Math.random() < options.params.probStartWithVowel;
-        else useVowel = sets.vowels.includes(firstLetter) || sets.vowelClusters.some(vc => vc.startsWith(firstLetter));
+        const prefix = options.prefix.toLowerCase();
+        const suffix = options.suffix.toLowerCase();
+        const fixedLength = prefix.length + suffix.length;
+        
+        let minCoreLength = options.minLength - fixedLength;
+        let maxCoreLength = options.maxLength - fixedLength;
+
+        if (minCoreLength < 0) minCoreLength = 0;
+        if (maxCoreLength < 0) return null; // Prefix/suffix too long
 
         for (let attempt = 0; attempt < MAX_ATTEMPTS_PER_NAME; attempt++) {
-          let name = "";
-          let currentIsVowel = useVowel;
-          if (!['any', 'vowel', 'consonant'].includes(firstLetter)) {
-            let startingPool = (currentIsVowel ? sets.vowelClusters.concat(sets.vowels) : sets.consonantClusters.concat(sets.consonants));
-            let startingPhoneme = choose(startingPool.filter(p => p.startsWith(firstLetter)));
-            name = startingPhoneme || firstLetter;
-            currentIsVowel = !currentIsVowel;
-          }
-          while (name.length < options.maxLength) {
-            let phoneme;
-            if (currentIsVowel) {
-              phoneme = Math.random() < options.params.probVowelCluster ? choose(sets.vowelClusters) : choose(sets.vowels);
+            let coreName = "";
+            let currentIsVowel;
+
+            if (prefix) {
+                currentIsVowel = !isVowel(prefix.slice(-1));
+            } else if (options.startWith === 'vowel') {
+                currentIsVowel = true;
+            } else if (options.startWith === 'consonant') {
+                currentIsVowel = false;
             } else {
-              let pool = Math.random() < options.params.probConsonantCluster ? sets.consonantClusters : sets.consonants;
-              if (options.tone !== 'neutral' && toneBias[options.tone]) {
-                const biasPool = toneBias[options.tone].filter(p => !options.exclude.some(ex => p.includes(ex)));
-                pool = pool.concat(biasPool);
-              }
-              phoneme = choose(pool);
+                currentIsVowel = Math.random() < options.params.probStartWithVowel;
             }
-            if (!phoneme || (name.length + phoneme.length) > options.maxLength) break;
-            name += phoneme;
-            currentIsVowel = !currentIsVowel;
-          }
-          if (name.length < options.maxLength && Math.random() < options.params.probAddFinalCluster) {
-            const finalCluster = choose(sets.finalClusters);
-            if (finalCluster && (name.length + finalCluster.length <= options.maxLength)) {
-              name += finalCluster;
+            
+            while (coreName.length < maxCoreLength) {
+                let phoneme;
+                if (currentIsVowel) {
+                    phoneme = Math.random() < options.params.probVowelCluster ? choose(options.filteredPhonemes.vowelClusters) : choose(options.filteredPhonemes.vowels);
+                } else {
+                    let pool = Math.random() < options.params.probConsonantCluster ? options.filteredPhonemes.consonantClusters : options.filteredPhonemes.consonants;
+                    if (options.tone !== 'neutral' && toneBias[options.tone]) {
+                        const biasPool = toneBias[options.tone].filter(p => !options.exclude.some(ex => p.includes(ex)));
+                        pool = pool.concat(biasPool);
+                    }
+                    phoneme = choose(pool);
+                }
+                if (!phoneme || (coreName.length + phoneme.length) > maxCoreLength) break;
+                coreName += phoneme;
+                currentIsVowel = !currentIsVowel;
             }
-          }
-          name = name.replace(/(.)\1{2,}/g, '$1');
-          if (name.length >= options.minLength && name.length <= options.maxLength) {
-            return name.charAt(0).toUpperCase() + name.slice(1);
-          }
+
+            if (coreName.length < maxCoreLength && !suffix && Math.random() < options.params.probAddFinalCluster) {
+                const finalCluster = choose(options.filteredPhonemes.finalClusters);
+                if (finalCluster && (coreName.length + finalCluster.length <= maxCoreLength)) {
+                    coreName += finalCluster;
+                }
+            }
+
+            let finalName = prefix + coreName + suffix;
+            finalName = finalName.replace(/(.)\1{2,}/g, '$1');
+
+            if (finalName.length >= options.minLength && finalName.length <= options.maxLength) {
+                return finalName.charAt(0).toUpperCase() + finalName.slice(1);
+            }
         }
-        return null;
+        return null; // Failed to generate a valid name
       };
 
       // === RENDER/UPDATE UI FUNCTIONS ===
-      const renderList = (element, items, emptyMessage, itemClass = '') => {
+      const renderList = (element, items, emptyMessage, filter, itemClass = '') => {
         element.innerHTML = '';
-        if (items.length === 0) {
-          element.innerHTML = `<p class="text-gray-500 text-sm text-center">${emptyMessage}</p>`;
+        const filteredItems = filter ? items.filter(item => item.toLowerCase().includes(filter.toLowerCase())) : items;
+        
+        if (filteredItems.length === 0) {
+          element.innerHTML = `<p class="text-gray-500 text-sm text-center">${filter ? 'No matches found.' : emptyMessage}</p>`;
           return;
         }
-        items.forEach(name => {
+        filteredItems.forEach(name => {
           const isFavorited = favorites.includes(name);
           const favIconPath = isFavorited ? "M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" : "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z";
           const favIconClass = isFavorited ? 'text-red-500' : 'text-gray-400 hover:text-red-500';
@@ -511,27 +569,36 @@
 
       const updateName = (oldName, newName) => {
         if (!newName || oldName === newName) return;
-        // Update history
+        
         history = history.map(batch => batch.map(name => name === oldName ? newName : name));
-        // Update favorites
+        
         const favIndex = favorites.indexOf(oldName);
         if (favIndex > -1) {
           favorites[favIndex] = newName;
           localStorage.setItem('favorites', JSON.stringify(favorites));
         }
         updateAllLists();
+        saveHistoryToLocalStorage();
+      };
+      
+      const saveHistoryToLocalStorage = () => {
+        if (isHistoryPersistenceEnabled) {
+            localStorage.setItem('nameHistory', JSON.stringify(history));
+        }
       };
 
       const updateAllLists = () => {
         const currentOutput = history.length > 0 ? history[0] : [];
+        const favFilter = favoritesSearchInput.value;
+        const historyFilter = historySearchInput.value;
+        
         renderList(outputEl, currentOutput, 'Click "Generate Names" to start!');
-        renderList(favoritesListEl, favorites, 'Your favorite names will appear here.');
-        renderList(historyListEl, history.flat(), 'Recently generated names will show up here.');
+        renderList(favoritesListEl, favorites, 'Your favorite names will appear here.', favFilter);
+        renderList(historyListEl, history.flat(), 'Recently generated names will show up here.', historyFilter);
 
-        // Update button states
         const isHistoryEmpty = history.length === 0;
         const isFavoritesEmpty = favorites.length === 0;
-        exportGeneratedBtn.disabled = isHistoryEmpty;
+        exportGeneratedBtn.disabled = currentOutput.length === 0;
         exportHistoryBtn.disabled = isHistoryEmpty;
         clearHistoryBtn.disabled = isHistoryEmpty;
         exportFavsBtn.disabled = isFavoritesEmpty;
@@ -560,22 +627,25 @@
           startWith: document.getElementById("startWith").value,
           exclude: allExcludes,
           filteredPhonemes: filteredPhonemes,
-          params: generationParams
+          params: generationParams,
+          prefix: mustStartWithInput.value,
+          suffix: mustEndWithInput.value,
         };
 
         outputEl.innerHTML = '<div class="flex justify-center items-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div><span class="ml-3 text-gray-500">Generating...</span></div>';
         setTimeout(() => {
           const newNames = new Set();
           let attempts = 0;
-          while (newNames.size < namesToGenerate && attempts < (namesToGenerate * 25)) { // Dynamic attempts
+          while (newNames.size < namesToGenerate && attempts < (namesToGenerate * 50)) {
             const name = generateQuasiName(options);
             if (name) newNames.add(name);
             attempts++;
           }
           const nameArray = Array.from(newNames);
           history.unshift(nameArray);
-          if (history.length > 10) history.pop(); // Keep history to last 10 generations
+          if (history.length > 20) history.pop(); // Keep history to last 20 generations
           updateAllLists();
+          saveHistoryToLocalStorage();
         }, 50);
       };
 
@@ -584,7 +654,7 @@
         if (!button) return;
 
         const name = button.dataset.name;
-        if (!name) return; // Exit if the button isn't associated with a name
+        if (!name) return;
 
         if (button.classList.contains('copy-btn')) {
           navigator.clipboard.writeText(name).then(() => {
@@ -622,7 +692,7 @@
           input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') input.blur();
             if (e.key === 'Escape') {
-              updateAllLists(); // Re-render to cancel edit
+              updateAllLists(); 
             }
           });
         }
@@ -638,20 +708,60 @@
       };
 
       const handleResetAdvanced = () => {
-        // Reset params object
         generationParams = { ...initialGenerationParams };
-        // Reset sliders UI
         Object.entries(probabilitySliders).forEach(([key, slider]) => {
           slider.noUiSlider.set(initialGenerationParams[key] * 100);
         });
-        // Reset other controls
         excludeInput.value = '';
+        mustStartWithInput.value = '';
+        mustEndWithInput.value = '';
         numNamesInput.value = initialNamesToGenerate;
         document.querySelectorAll('.phoneme-checkbox').forEach(cb => cb.checked = true);
-        // User feedback
         resetAdvancedBtn.textContent = 'Controls Reset!';
         setTimeout(() => { resetAdvancedBtn.textContent = 'Reset Advanced Controls'; }, 1500);
-      }
+      };
+      
+      const getSettings = () => {
+          const phonemeExcludes = Array.from(document.querySelectorAll('.phoneme-checkbox:not(:checked)')).map(cb => cb.dataset.phoneme);
+          return {
+              length: lengthSliderEl.noUiSlider.get(),
+              tone: document.getElementById("tone").value,
+              startWith: document.getElementById("startWith").value,
+              exclude: excludeInput.value,
+              prefix: mustStartWithInput.value,
+              suffix: mustEndWithInput.value,
+              numNames: numNamesInput.value,
+              params: generationParams,
+              phonemeExcludes: phonemeExcludes
+          };
+      };
+      
+      const applySettings = (settings) => {
+          lengthSliderEl.noUiSlider.set(settings.length);
+          document.getElementById("tone").value = settings.tone;
+          document.getElementById("startWith").value = settings.startWith;
+          excludeInput.value = settings.exclude;
+          mustStartWithInput.value = settings.prefix;
+          mustEndWithInput.value = settings.suffix;
+          numNamesInput.value = settings.numNames;
+          generationParams = settings.params;
+          Object.entries(probabilitySliders).forEach(([key, slider]) => {
+              if (settings.params[key] !== undefined) {
+                  slider.noUiSlider.set(settings.params[key] * 100);
+              }
+          });
+          document.querySelectorAll('.phoneme-checkbox').forEach(cb => {
+              cb.checked = !settings.phonemeExcludes.includes(cb.dataset.phoneme);
+          });
+      };
+      
+      const populatePresetsDropdown = () => {
+        presetsSelect.innerHTML = '<option value="default">Default</option>';
+        Object.keys(presets).forEach(name => {
+            presetsSelect.innerHTML += `<option value="${name}">${name}</option>`;
+        });
+        deletePresetBtn.disabled = presetsSelect.value === 'default';
+      };
 
       // === INITIALIZATION ===
       // 1. Length Slider
@@ -659,7 +769,7 @@
       lengthSlider.on('update', values => lengthValue.textContent = `${values[0]} - ${values[1]}`);
 
       // 2. 'Starts With' Dropdown
-      'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => startWithSelect.innerHTML += `<option value="${l}">${l.toUpperCase()}</option>`);
+      // 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => startWithSelect.innerHTML += `<option value="${l}">${l.toUpperCase()}</option>`);
 
       // 3. Probability Sliders
       const probabilitySliders = {};
@@ -695,9 +805,8 @@
           valueSpan.textContent = `${numValue}%`;
           generationParams[key] = numValue / 100;
         });
-        probabilitySliders[key] = sliderEl; // Store slider instance for reset
+        probabilitySliders[key] = sliderEl;
       });
-
 
       // 4. Advanced Phoneme Toggles
       Object.keys(phonemes).forEach(key => {
@@ -715,15 +824,77 @@
         phonemeTogglesContainer.appendChild(groupContainer);
       });
 
-      // 5. Set Initial State
+      // 5. Set Initial State & Populate UI
+      historyPersistToggle.checked = isHistoryPersistenceEnabled;
+      populatePresetsDropdown();
       updateAllLists();
 
       // 6. Attach Event Listeners
       generateBtn.addEventListener("click", handleGenerateClick);
       document.body.addEventListener('click', handleListInteraction);
       resetAdvancedBtn.addEventListener('click', handleResetAdvanced);
+      
+      favoritesSearchInput.addEventListener('input', updateAllLists);
+      historySearchInput.addEventListener('input', updateAllLists);
 
-      // Export buttons
+      historyPersistToggle.addEventListener('change', () => {
+          isHistoryPersistenceEnabled = historyPersistToggle.checked;
+          localStorage.setItem('isHistoryPersistenceEnabled', isHistoryPersistenceEnabled);
+          if (isHistoryPersistenceEnabled) {
+              saveHistoryToLocalStorage();
+          } else {
+              localStorage.removeItem('nameHistory');
+          }
+      });
+      
+      savePresetBtn.addEventListener('click', () => {
+          const name = savePresetNameInput.value.trim();
+          if (!name) {
+              alert('Please enter a name for the preset.');
+              return;
+          }
+          presets[name] = getSettings();
+          localStorage.setItem('namePresets', JSON.stringify(presets));
+          populatePresetsDropdown();
+          presetsSelect.value = name;
+          savePresetNameInput.value = '';
+          deletePresetBtn.disabled = false;
+      });
+      
+      deletePresetBtn.addEventListener('click', () => {
+        const selectedPreset = presetsSelect.value;
+        if (selectedPreset === 'default' || !presets[selectedPreset]) return;
+        if (confirm(`Are you sure you want to delete the "${selectedPreset}" preset?`)) {
+            delete presets[selectedPreset];
+            localStorage.setItem('namePresets', JSON.stringify(presets));
+            populatePresetsDropdown();
+            deletePresetBtn.disabled = true;
+        }
+      });
+      
+      presetsSelect.addEventListener('change', () => {
+          const selectedPreset = presetsSelect.value;
+          deletePresetBtn.disabled = selectedPreset === 'default';
+          if (selectedPreset === 'default') {
+              // Create a default settings object to apply
+              const defaultSettings = {
+                length: [3, 6],
+                tone: 'neutral',
+                startWith: 'any',
+                exclude: '',
+                prefix: '',
+                suffix: '',
+                numNames: initialNamesToGenerate,
+                params: initialGenerationParams,
+                phonemeExcludes: []
+              };
+              applySettings(defaultSettings);
+              handleResetAdvanced(); // Also visually reset sliders and buttons
+          } else if (presets[selectedPreset]) {
+              applySettings(presets[selectedPreset]);
+          }
+      });
+
       exportFavsBtn.addEventListener('click', () => {
         if (favorites.length > 0) exportToFile(favorites.join('\n'), 'name-kitchen-favorites.txt', 'text/plain');
       });
@@ -735,23 +906,21 @@
         if (history.length > 0) exportToFile(history.flat().join('\n'), 'name-kitchen-history.txt', 'text/plain');
       });
 
-      // Clear buttons
-      const handleClearHistory = () => {
+      clearHistoryBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to clear the entire generation history? This cannot be undone.')) {
           history = [];
+          localStorage.removeItem('nameHistory');
           updateAllLists();
         }
-      };
-      clearHistoryBtn.addEventListener('click', handleClearHistory);
+      });
       clearFavsBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to clear all favorites? This cannot be undone.')) {
           favorites = [];
-          localStorage.setItem('favorites', JSON.stringify(favorites));
+          localStorage.setItem('favorites', JSON.stringify([]));
           updateAllLists();
         }
       });
 
-      // Phoneme group toggles
       phonemeTogglesContainer.addEventListener('click', e => {
         if (e.target.tagName === 'BUTTON' && e.target.dataset.group) {
           const group = e.target.dataset.group;
