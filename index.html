@@ -796,12 +796,6 @@
       lengthSlider.on('update', values => lengthValue.textContent = `${values[0]} - ${values[1]}`);
 
       // 2. 'Starts With' Dropdown Logic
-      // Create a divider for visual separation in the dropdown.
-      const divider = document.createElement('option');
-      divider.disabled = true;
-      divider.textContent = '──────────';
-      startWithSelect.appendChild(divider);
-
       // Dynamically populate the 'Starts With' dropdown with letters A-Z.
       'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => {
           const option = document.createElement('option');
