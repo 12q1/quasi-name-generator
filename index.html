@@ -178,6 +178,13 @@
       visibility: visible;
       opacity: 1;
     }
+    
+    /* Scroll to Top Button Styling */
+    #scrollToTopBtn.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
 
     .header {
       width: 100%;
@@ -257,7 +264,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label for="must-start-with" class="block text-sm font-medium text-gray-700">Required Prefix</label>
-                    <input type="text" id="must-start-with" placeholder="e.g., Pro, Geo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2">
+                    <input type="text" id="must-start-with" placeholder="e.g., Pro, Geo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm p-2 disabled:bg-gray-200 disabled:cursor-not-allowed">
                   </div>
                   <div>
                     <label for="must-end-with" class="block text-sm font-medium text-gray-700">Required Suffix</label>
@@ -398,6 +405,13 @@
     </div>
   </div>
 
+  <button id="scrollToTopBtn" title="Go to top" 
+    class="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-orange-500 text-white shadow-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-300 opacity-0 transform translate-y-4 pointer-events-none">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // === STATE ===
@@ -447,6 +461,7 @@
       const excludeInput = document.getElementById('exclude');
       const mustStartWithInput = document.getElementById('must-start-with');
       const mustEndWithInput = document.getElementById('must-end-with');
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
       // Search Inputs
       const favoritesSearchInput = document.getElementById('favorites-search');
@@ -490,13 +505,23 @@
             let coreName = "";
             let currentIsVowel;
 
+            // Determine starting phoneme type based on settings
             if (prefix) {
+                // If there's a prefix, the next phoneme type is opposite of the prefix's last letter
                 currentIsVowel = !isVowel(prefix.slice(-1));
+            } else if (options.startWith.length === 1) {
+                // If a specific starting letter is chosen
+                coreName = options.startWith;
+                // The next phoneme type is opposite of that letter
+                currentIsVowel = !isVowel(coreName);
             } else if (options.startWith === 'vowel') {
+                // Force start with a vowel type
                 currentIsVowel = true;
             } else if (options.startWith === 'consonant') {
+                // Force start with a consonant type
                 currentIsVowel = false;
             } else {
+                // Default 'any': use probability to decide starting phoneme type
                 currentIsVowel = Math.random() < options.params.probStartWithVowel;
             }
             
@@ -753,6 +778,8 @@
           document.querySelectorAll('.phoneme-checkbox').forEach(cb => {
               cb.checked = !settings.phonemeExcludes.includes(cb.dataset.phoneme);
           });
+          // Trigger change event to ensure prefix input is disabled if needed
+          startWithSelect.dispatchEvent(new Event('change'));
       };
       
       const populatePresetsDropdown = () => {
@@ -768,8 +795,40 @@
       const lengthSlider = noUiSlider.create(lengthSliderEl, { start: [3, 6], connect: true, range: { 'min': 2, 'max': 15 }, step: 1, tooltips: false, format: { to: v => Math.round(v), from: v => Number(v) } });
       lengthSlider.on('update', values => lengthValue.textContent = `${values[0]} - ${values[1]}`);
 
-      // 2. 'Starts With' Dropdown
-      // 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => startWithSelect.innerHTML += `<option value="${l}">${l.toUpperCase()}</option>`);
+      // 2. 'Starts With' Dropdown Logic
+      // Create a divider for visual separation in the dropdown.
+      const divider = document.createElement('option');
+      divider.disabled = true;
+      divider.textContent = '──────────';
+      startWithSelect.appendChild(divider);
+
+      // Dynamically populate the 'Starts With' dropdown with letters A-Z.
+      'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => {
+          const option = document.createElement('option');
+          option.value = l;
+          option.textContent = l.toUpperCase();
+          startWithSelect.appendChild(option);
+      });
+
+      // Add an event listener to handle the interaction between 'Starts With' and 'Required Prefix'.
+      startWithSelect.addEventListener('change', () => {
+          // If the selected value is a single character (a letter), disable the prefix input.
+          // Otherwise (for "Any", "Vowel", "Consonant"), ensure it's enabled.
+          if (startWithSelect.value.length === 1) {
+              mustStartWithInput.disabled = true;
+              mustStartWithInput.value = ''; // Clear the prefix to avoid conflicts.
+          } else {
+              mustStartWithInput.disabled = false;
+          }
+      });
+
+      // Add an event listener for the reverse interaction.
+      // If the user types in the prefix input, reset the 'Starts With' dropdown to "Any".
+      mustStartWithInput.addEventListener('input', () => {
+          if (mustStartWithInput.value.length > 0) {
+              startWithSelect.value = 'any';
+          }
+      });
 
       // 3. Probability Sliders
       const probabilitySliders = {};
@@ -929,6 +988,29 @@
           document.querySelectorAll(`.phoneme-checkbox[data-group="${group}"]`).forEach(cb => cb.checked = shouldBeChecked);
         }
       });
+
+      // === SCROLL TO TOP BUTTON LOGIC ===
+      // This function handles the visibility of the scroll-to-top button.
+      const handleScroll = () => {
+        // Show the button if the user has scrolled down more than 300 pixels, otherwise hide it.
+        if (window.scrollY > 300) {
+          scrollToTopBtn.classList.add('show');
+        } else {
+          scrollToTopBtn.classList.remove('show');
+        }
+      };
+
+      // This function smoothly scrolls the window to the top of the page.
+      const handleScrollToTopClick = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      };
+
+      // Attach event listeners for the scroll-to-top functionality.
+      window.addEventListener('scroll', handleScroll);
+      scrollToTopBtn.addEventListener('click', handleScrollToTopClick);
     });
   </script>
 </body>
