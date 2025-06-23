@@ -172,7 +172,7 @@
                     request to the API's base URL. All customization is handled through URL query parameters.</p>
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Base URL</h3>
-                    <pre><code class="language-http">https://namekitchen.net/api/generate/</code></pre>
+                    <pre><code class="language-http">https://api.namekitchen.net/generate/</code></pre>
                 </div>
             </div>
 
@@ -284,27 +284,27 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Simple Request</h3>
                     <p class="text-gray-600 mb-3">Generate 5 names using default settings.</p>
-                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://namekitchen.net/api/generate/?count=5"</code></pre>
+                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://api.namekitchen.net/generate/?count=5"</code></pre>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Advanced Request</h3>
                     <p class="text-gray-600 mb-3">Generate 10 "brandable" names, 5-8 characters long, starting with "V",
                         and excluding the letter 'x'.</p>
-                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://namekitchen.net/api/generate/?count=10&tone=brand&min=5&max=8&startsWith=v&exclude=x"</code></pre>
+                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://api.namekitchen.net/generate/?count=10&tone=brand&min=5&max=8&startsWith=v&exclude=x"</code></pre>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Prefix and High Probability Request</h3>
                     <p class="text-gray-600 mb-3">Generate names that start with "Glo" and have a high chance of using
                         vowel clusters.</p>
-                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://namekitchen.net/api/generate/?prefix=Glo&probVowelCluster=0.8"</code></pre>
+                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://api.namekitchen.net/generate/?prefix=Glo&probVowelCluster=0.8"</code></pre>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Excluding Multiple Items</h3>
                     <p class="text-gray-600 mb-3">To exclude multiple letter clusters or specific phonemes, provide them as a comma-separated list.</p>
-                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://namekitchen.net/api/generate/?exclude=x,zz,qu&excludePhonemes=th,sh,br"</code></pre>
+                    <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://api.namekitchen.net/generate/?exclude=x,zz,qu&excludePhonemes=th,sh,br"</code></pre>
                 </div>
             </div>
 
