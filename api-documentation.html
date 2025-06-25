@@ -14,6 +14,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6TKZCJ6SX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-Y6TKZCJ6SX');
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -37,21 +45,29 @@
             justify-content: center;
             padding-top: 0.5rem;
         }
+
         .main-nav a {
             padding: 0.5rem 1.5rem;
             margin: 0 0.5rem;
-            border-radius: 9999px; /* rounded-full */
+            border-radius: 9999px;
+            /* rounded-full */
             font-weight: 500;
-            color: #4B5563; /* gray-600 */
+            color: #4B5563;
+            /* gray-600 */
             transition: background-color 0.3s, color 0.3s;
             text-decoration: none;
         }
+
         .main-nav a:hover {
-            background-color: #FBBF24; /* amber-400 */
-            color: #1F2937; /* gray-800 */
+            background-color: #FBBF24;
+            /* amber-400 */
+            color: #1F2937;
+            /* gray-800 */
         }
+
         .main-nav a.active {
-            background-color: #F97316; /* orange-500 */
+            background-color: #F97316;
+            /* orange-500 */
             color: white;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
@@ -162,7 +178,8 @@
             <!-- Section: Introduction -->
             <div class="text-center">
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Name Kitchen API</h1>
-                <p class="mt-4 text-lg text-gray-600">Integrate our powerful, free, phonetics-based name generation engine
+                <p class="mt-4 text-lg text-gray-600">Integrate our powerful, free, phonetics-based name generation
+                    engine
                     directly into your applications.</p>
             </div>
 
@@ -223,7 +240,8 @@
                                 <td>Constrains the first letter. `prefix` overrides this.</td>
                                 <td><code class="inline-code">any</code></td>
                                 <td><code class="inline-code">vowel</code>, <code class="inline-code">consonant</code>,
-                                    <code class="inline-code">a</code>, <code class="inline-code">z</code></td>
+                                    <code class="inline-code">a</code>, <code class="inline-code">z</code>
+                                </td>
                             </tr>
                             <tr>
                                 <td><code class="inline-code">prefix</code></td>
@@ -304,7 +322,8 @@
 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Excluding Multiple Items</h3>
-                    <p class="text-gray-600 mb-3">To exclude multiple letter clusters or specific phonemes, provide them as a comma-separated list.</p>
+                    <p class="text-gray-600 mb-3">To exclude multiple letter clusters or specific phonemes, provide them
+                        as a comma-separated list.</p>
                     <pre><button class="copy-btn">Copy</button><code class="language-bash">curl "https://api.namekitchen.net/generate/?exclude=x,zz,qu&excludePhonemes=th,sh,br"</code></pre>
                 </div>
             </div>
